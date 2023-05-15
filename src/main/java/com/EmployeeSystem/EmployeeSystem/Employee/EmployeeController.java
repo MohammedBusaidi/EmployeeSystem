@@ -1,8 +1,10 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -10,20 +12,26 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EmployeeController {
     EmployeeService employeeService;
-//    @GetMapping()
-//    public List<Employee> getAll() {
-//        return employeeService.getAll();
-//    }
+
+    @GetMapping()
+    public List<Employee> getAll() {
+        return employeeService.getAll();
+    }
+
     @GetMapping("{id}")
-    public Employee getById(@PathVariable ("id") UUID employeeId) {
+    public Employee getById(@PathVariable("id") UUID employeeId) {
         return employeeService.findById(employeeId);
     }
+
     @PostMapping()
     Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
+
     @DeleteMapping("{id}")
-    public String deleteEmployee(@PathVariable ("id") UUID employeeId) {
+    public String deleteEmployee(@PathVariable("id") UUID employeeId) {
         return employeeService.deleteById(employeeId);
     }
+
+
 }
