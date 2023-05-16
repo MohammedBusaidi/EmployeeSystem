@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 import java.util.UUID;
 
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Getter
 @Setter
 @AllArgsConstructor

@@ -1,7 +1,6 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,10 +27,16 @@ public class EmployeeController {
         return employeeService.saveEmployee(employee);
     }
 
+    @PutMapping()
+    public void updateEmployee(@RequestBody Employee employee) {
+        employeeService.saveEmployee(employee);
+    }
     @DeleteMapping("{id}")
     public String deleteEmployee(@PathVariable("id") UUID employeeId) {
         return employeeService.deleteById(employeeId);
     }
+
+
 
 
 }
