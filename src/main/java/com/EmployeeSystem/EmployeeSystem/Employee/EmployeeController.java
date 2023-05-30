@@ -1,42 +1,47 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/employees")
-@AllArgsConstructor
+@RequestMapping("api/v1/employee")
 public class EmployeeController {
+    @Autowired
     EmployeeService employeeService;
 
-    @GetMapping()
+    @GetMapping(value = "get")
+    @PreAuthorize("hasRole('USER')")
     public List<Employee> getAll() {
         return employeeService.getAll();
     }
 
-    @GetMapping("{id}")
-    public Employee getById(@PathVariable("id") UUID employeeId) {
+    @GetMapping(value = "getById")
+    @PreAuthorize("hasRole('USER')")
+    public Employee getById(@RequestParam Long employeeId) {
         return employeeService.findById(employeeId);
     }
 
-    @PostMapping()
+    @PostMapping(value = "create")
+    @PreAuthorize("hasRole('USER')")
     Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 
-    @PutMapping()
-    public void updateEmployee(@RequestBody Employee employee) {
-        employeeService.saveEmployee(employee);
-    }
-    @DeleteMapping("{id}")
-    public String deleteEmployee(@PathVariable("id") UUID employeeId) {
-        return employeeService.deleteById(employeeId);
+    @PutMapping(value = "update")
+    @PreAuthorize("hasRole('USER')")
+    public Employee updateEmployee(@RequestParam Long employeeId, @RequestBody Employee employee) {
+        return employeeService.updateEmployee(employeeId, employee);
     }
 
-
-
+    @DeleteMapping("deleteById")
+    @PreAuthorize("hasRole('USER')")
+    public void deleteEmployee(@RequestParam Long employeeId) {
+        employeeService.deleteById(employeeId);
+    }
 
 }

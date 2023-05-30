@@ -1,18 +1,21 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-@AllArgsConstructor
 @Service
 public class EmployeeService {
-    final EmployeeRepository employeeRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
-    public Employee findById(UUID employeeId) {
+    public List<Employee> getAll() {
+        return employeeRepository.findAll();
+    }
+
+    public Employee findById(Long employeeId) {
         Optional<Employee> optional = employeeRepository.findById(employeeId);
         Employee employee = null;
         if (optional.isPresent()) {
@@ -23,18 +26,33 @@ public class EmployeeService {
         return employee;
     }
 
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
-    }
-
     public Employee saveEmployee(Employee employee) {
         employeeRepository.save(employee);
         return employee;
     }
 
-    public String deleteById(UUID employeeId) {
+    public Employee updateEmployee(Long employeeId, Employee employee) {
+        Employee employeeUpdate = employeeRepository.findById(employeeId).orElseThrow();
+        employeeUpdate.setFirstName(employee.getFirstName());
+        employeeUpdate.setLastName(employee.getLastName());
+        employeeUpdate.setPassportNumber(employee.getPassportNumber());
+        employeeUpdate.setPassportIssueDate(employee.getPassportIssueDate());
+        employeeUpdate.setPassportExpiryDate(employee.getPassportExpiryDate());
+        employeeUpdate.setVisaNumber(employee.getVisaNumber());
+        employeeUpdate.setVisaIssueDate(employee.getVisaIssueDate());
+        employeeUpdate.setVisaExpiryDate(employee.getVisaExpiryDate());
+        return employeeRepository.save(employeeUpdate);
+    }
+
+    public String deleteById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
         return "Employee Deleted: " + employeeId;
-
     }
+
+//    public String deleteEmployeeById(Long employeeId, Employee employee) {
+//        if (employee.isActive) {
+//            return "Employee Deleted" + employeeId;
+//        }
+//        return "ID Does not exist";
+//    }
 }
