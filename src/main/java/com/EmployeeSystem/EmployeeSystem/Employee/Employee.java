@@ -48,10 +48,10 @@ public class Employee extends BaseEntity {
     private Date startOfContract;
     @Column(name = "end_of_contract")
     private Date endOfContract;
-//    @Column(name = "salary")
-//    private Float salary;
-//    @Column(name = "vat")
-//    private Double vat = salary * 0.05;
+    @Column(name = "salary")
+    private Float salary;
+    @Column(name = "vat")
+    private Double vat = salary * 0.05;
 
 
 }

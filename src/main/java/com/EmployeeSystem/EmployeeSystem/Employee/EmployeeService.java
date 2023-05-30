@@ -44,15 +44,7 @@ public class EmployeeService {
         return employeeRepository.save(employeeUpdate);
     }
 
-    public String deleteById(Long employeeId) {
+    public void deleteById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
-        return "Employee Deleted: " + employeeId;
     }
-
-//    public String deleteEmployeeById(Long employeeId, Employee employee) {
-//        if (employee.isActive) {
-//            return "Employee Deleted" + employeeId;
-//        }
-//        return "ID Does not exist";
-//    }
 }
