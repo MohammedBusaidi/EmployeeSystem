@@ -22,15 +22,20 @@ public class EmployeeController {
         return employeeService.findById(employeeId);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/addEmployee")
     Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+        return employeeService.createEmployee(employee);
+    }
+
+    @PostMapping("/activate/{employeeId}")
+    public ResponseEntity<String> activateEmployee(@PathVariable Long employeeId) {
+        employeeService.activateEmployee(employeeId);
+        String message = "Employee with ID " + employeeId + " has been reactivated.";
+        return ResponseEntity.ok(message);
     }
 
     @PutMapping("/update/{employeeId}")
-    public ResponseEntity<Employee> updateEmployee(
-            @PathVariable Long employeeId,
-            @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee employee) {
         try {
             Employee updatedEmployee = employeeService.updateEmployee(employeeId, employee);
             return ResponseEntity.ok(updatedEmployee);

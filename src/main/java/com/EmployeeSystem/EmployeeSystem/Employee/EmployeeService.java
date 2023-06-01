@@ -21,7 +21,7 @@ public class EmployeeService {
         return employeeRepository.findById(employeeId).get();
     }
 
-    public Employee saveEmployee(Employee employee) {
+    public Employee createEmployee(Employee employee) {
         LocalDateTime now = LocalDateTime.now();
         employee.setVat(employee.getSalary() * Constants.vat);
         employee.setCreatedDate(now);
@@ -57,6 +57,12 @@ public class EmployeeService {
     public void deleteById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         employee.setActive(false);
+        employeeRepository.save(employee);
+    }
+
+    public void activateEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+        employee.setActive(true);
         employeeRepository.save(employee);
     }
 
