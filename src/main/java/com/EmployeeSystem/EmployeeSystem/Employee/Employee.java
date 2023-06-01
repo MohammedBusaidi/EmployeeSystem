@@ -51,7 +51,5 @@ public class Employee extends BaseEntity {
     @Column(name = "salary")
     private Float salary;
     @Column(name = "vat")
-    private Double vat = salary * 0.05;
-
-
+    private Double vat;
 }

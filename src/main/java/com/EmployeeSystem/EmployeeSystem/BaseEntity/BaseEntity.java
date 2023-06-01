@@ -1,12 +1,21 @@
 package com.EmployeeSystem.EmployeeSystem.BaseEntity;
 
 import jakarta.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @MappedSuperclass
 public class BaseEntity {
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private boolean isActive;
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 }
