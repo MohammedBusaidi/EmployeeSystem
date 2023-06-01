@@ -51,13 +51,13 @@ public class EmployeeService {
         employeeUpdate.setEndOfContract(employee.getEndOfContract());
         employeeUpdate.setSalary(employee.getSalary());
         employeeUpdate.setUpdatedDate(now);
-
-        // Save the updated employee
         return employeeRepository.save(employeeUpdate);
     }
 
-
     public void deleteById(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+        employee.setActive(false);
+        employeeRepository.save(employee);
     }
+
 }
