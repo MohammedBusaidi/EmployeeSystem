@@ -18,8 +18,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/getById/{employeeId}")
-    public Employee getById(@PathVariable("employeeId") Long employeeId) {
-        return employeeService.findById(employeeId);
+    public ResponseEntity<Employee> getById(@PathVariable("employeeId") Long employeeId) {
+        Employee employee = employeeService.findById(employeeId);
+        if (employee != null) {
+            return ResponseEntity.ok(employee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/addEmployee")
@@ -30,7 +35,7 @@ public class EmployeeController {
     @PostMapping("/activate/{employeeId}")
     public ResponseEntity<String> activateEmployee(@PathVariable Long employeeId) {
         employeeService.activateEmployee(employeeId);
-        String message = "Employee with ID " + employeeId + " has been reactivated.";
+        String message = "Employee with ID: " + employeeId + " has been reactivated.";
         return ResponseEntity.ok(message);
     }
 
@@ -44,11 +49,18 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/delete/{employeeId}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long employeeId) {
-        employeeService.deleteById(employeeId);
-        String message = "Employee with ID " + employeeId + " has been deleted.";
+    @DeleteMapping("/deActivate/{employeeId}")
+    public ResponseEntity<String> deActivateEmployee(@PathVariable Long employeeId) {
+        employeeService.deActivateEmployee(employeeId);
+        String message = "Employee with ID: " + employeeId + " has been deActivated.";
         return ResponseEntity.ok(message);
+    }
+
+    @DeleteMapping("/delete/{employeeId}")
+    public String deleteEmployee(@PathVariable Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
+        return "Employee with ID: " + employeeId + " has been deleted.";
+
     }
 
 }

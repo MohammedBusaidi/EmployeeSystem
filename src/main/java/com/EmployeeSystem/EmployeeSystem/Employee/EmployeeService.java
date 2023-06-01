@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -50,11 +49,12 @@ public class EmployeeService {
         employeeUpdate.setStartOfContract(employee.getStartOfContract());
         employeeUpdate.setEndOfContract(employee.getEndOfContract());
         employeeUpdate.setSalary(employee.getSalary());
+        employeeUpdate.setVat(employee.getSalary() * Constants.vat);
         employeeUpdate.setUpdatedDate(now);
         return employeeRepository.save(employeeUpdate);
     }
 
-    public void deleteById(Long employeeId) {
+    public void deActivateEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         employee.setActive(false);
         employeeRepository.save(employee);
@@ -64,6 +64,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         employee.setActive(true);
         employeeRepository.save(employee);
+    }
+
+    public void deleteEmployee(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 
 }
