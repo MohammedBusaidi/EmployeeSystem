@@ -68,10 +68,14 @@ public class EmployeeController extends GenericController {
         return ResponseEntity.ok(message);
     }
 
-    @DeleteMapping("/delete/{employeeId}")
-    public String deleteEmployee(@PathVariable Long employeeId) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<APICustomResponse> deleteEmployee(
+            @PathVariable("id") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
-        return "Employee with ID: " + employeeId + " has been deleted.";
+        return createResponse(
+                null,
+                "Employee with ID: " + employeeId + " has been deleted successfully",
+                OK);
 
     }
 

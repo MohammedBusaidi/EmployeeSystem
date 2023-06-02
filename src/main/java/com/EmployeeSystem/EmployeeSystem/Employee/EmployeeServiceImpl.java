@@ -34,10 +34,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee.getEmployeeId();
     }
 
-    public Employee updateEmployee(Long employeeId, Employee employee) throws EmployeeNotFoundException {
+    public Employee updateEmployee(Long employeeId, Employee employee) {
         LocalDateTime now = LocalDateTime.now();
         Employee employeeUpdate = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with ID: " + employeeId));
+                .orElseThrow(ResourceNotFoundException::new);
         employeeUpdate.setFirstName(employee.getFirstName());
         employeeUpdate.setLastName(employee.getLastName());
         employeeUpdate.setPassportNumber(employee.getPassportNumber());
@@ -72,7 +72,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void deleteEmployee(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+        Employee employee = employeeRepository
+                .findById(employeeId)
+                .orElseThrow(ResourceNotFoundException::new);
+        employeeRepository.delete(employee);
+
     }
 
 }
