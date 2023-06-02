@@ -13,7 +13,7 @@ public interface EmployeeService {
 
     void deActivateEmployee(Long employeeId);
 
-    void activateEmployee(Long employeeId);
+    Employee activateEmployee(Long employeeId);
 
     void deleteEmployee(Long employeeId);
 

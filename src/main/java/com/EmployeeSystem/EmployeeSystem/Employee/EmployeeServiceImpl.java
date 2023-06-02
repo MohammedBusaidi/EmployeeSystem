@@ -1,7 +1,6 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
 import com.EmployeeSystem.EmployeeSystem.Constants.Constants;
-import com.EmployeeSystem.EmployeeSystem.Exception.EmployeeNotFoundException;
 import com.EmployeeSystem.EmployeeSystem.Exception.ResourceNotFoundException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +59,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void deActivateEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+        Employee employee = employeeRepository
+                .findById(employeeId)
+                .orElseThrow(ResourceNotFoundException::new);
         employee.setActive(false);
         employeeRepository.save(employee);
     }
 
-    public void activateEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+    public Employee activateEmployee(Long employeeId) {
+        Employee employee = employeeRepository
+                .findById(employeeId)
+                .orElseThrow(ResourceNotFoundException::new);
         employee.setActive(true);
         employeeRepository.save(employee);
+        return employee;
     }
 
     public void deleteEmployee(Long employeeId) {
@@ -78,5 +82,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employee);
 
     }
-
 }

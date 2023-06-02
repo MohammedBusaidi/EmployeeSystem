@@ -41,15 +41,17 @@ public class EmployeeController extends GenericController {
         Long employeeId = employeeService.createEmployee(employee);
         return createResponse(
                 Map.of("employee_Id", employeeId),
-                "Employee have been created",
+                "Employee has been created successfully",
                 CREATED);
     }
 
     @PostMapping("/activate/{id}")
-    public ResponseEntity<String> activateEmployee(@PathVariable("id") Long employeeId) {
-        employeeService.activateEmployee(employeeId);
-        String message = "Employee with ID: " + employeeId + " has been reactivated.";
-        return ResponseEntity.ok(message);
+    public ResponseEntity<APICustomResponse> activateEmployee(@PathVariable("id") Long employeeId) {
+        Employee employee = employeeService.activateEmployee(employeeId);
+        return createResponse(
+                Map.of("employee", employee),
+                "Employee with ID: " + employeeId + " has been Re-Activated",
+                CREATED);
     }
 
     @PutMapping("{id}")
@@ -61,11 +63,13 @@ public class EmployeeController extends GenericController {
                 OK);
     }
 
-    @DeleteMapping("/deActivate/{employeeId}")
-    public ResponseEntity<String> deActivateEmployee(@PathVariable Long employeeId) {
+    @DeleteMapping("/deActivate/{id}")
+    public ResponseEntity<APICustomResponse> deActivateEmployee(@PathVariable("id") Long employeeId) {
         employeeService.deActivateEmployee(employeeId);
-        String message = "Employee with ID: " + employeeId + " has been deActivated.";
-        return ResponseEntity.ok(message);
+        return createResponse(
+                null,
+                "Employee with ID: " + employeeId + " has been De-Activated",
+                OK);
     }
 
     @DeleteMapping("{id}")
@@ -76,7 +80,6 @@ public class EmployeeController extends GenericController {
                 null,
                 "Employee with ID: " + employeeId + " has been deleted successfully",
                 OK);
-
     }
 
 }
