@@ -15,7 +15,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public List<Employee> getAll() {
+    public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 

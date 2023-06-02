@@ -3,7 +3,7 @@ package com.EmployeeSystem.EmployeeSystem.Employee;
 import java.util.List;
 
 public interface EmployeeService {
-    List<Employee> getAll();
+    List<Employee> getAllEmployees();
 
     Employee findEmployeeById(Long employeeId);
 

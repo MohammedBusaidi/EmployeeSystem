@@ -18,11 +18,11 @@ public class EmployeeController extends GenericController {
     EmployeeServiceImpl employeeService;
 
     @GetMapping
-    public ResponseEntity<APICustomResponse> getAll() {
-        List<Employee> employees = employeeService.getAll();
+    public ResponseEntity<APICustomResponse> getAllEmployees() {
+        List<Employee> employees = employeeService.getAllEmployees();
         return createResponse(
-                Map.of("List of All Employees", employees),
-                "Employees",
+                Map.of("employees", employees),
+                "List of all employees",
                 OK);
     }
 
@@ -45,21 +45,20 @@ public class EmployeeController extends GenericController {
                 CREATED);
     }
 
-    @PostMapping("/activate/{employeeId}")
-    public ResponseEntity<String> activateEmployee(@PathVariable Long employeeId) {
+    @PostMapping("/activate/{id}")
+    public ResponseEntity<String> activateEmployee(@PathVariable("id") Long employeeId) {
         employeeService.activateEmployee(employeeId);
         String message = "Employee with ID: " + employeeId + " has been reactivated.";
         return ResponseEntity.ok(message);
     }
 
-    @PutMapping("/update/{employeeId}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee employee) {
-        try {
-            Employee updatedEmployee = employeeService.updateEmployee(employeeId, employee);
-            return ResponseEntity.ok(updatedEmployee);
-        } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("{id}")
+    public ResponseEntity<APICustomResponse> updateEmployee(@PathVariable("id") Long employeeId, @RequestBody Employee employee) {
+        employeeService.updateEmployee(employeeId, employee);
+        return createResponse(
+                null,
+                "Employee has been updated successfully",
+                OK);
     }
 
     @DeleteMapping("/deActivate/{employeeId}")
