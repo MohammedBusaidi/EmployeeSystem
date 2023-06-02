@@ -17,9 +17,13 @@ public class EmployeeController extends GenericController {
     @Autowired
     EmployeeServiceImpl employeeService;
 
-    @GetMapping("")
-    public List<Employee> getAll() {
-        return employeeService.getAll();
+    @GetMapping
+    public ResponseEntity<APICustomResponse> getAll() {
+        List<Employee> employees = employeeService.getAll();
+        return createResponse(
+                Map.of("List of All Employees", employees),
+                "Employees",
+                OK);
     }
 
     @GetMapping("{id}")
@@ -32,7 +36,7 @@ public class EmployeeController extends GenericController {
                 OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<APICustomResponse> createEmployee(@RequestBody Employee employee) {
         Long employeeId = employeeService.createEmployee(employee);
         return createResponse(
