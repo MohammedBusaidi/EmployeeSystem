@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("api/v1/employee")
@@ -22,13 +23,13 @@ public class EmployeeController extends GenericController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Employee> getById(@PathVariable("id") Long employeeId) {
-        Employee employee = employeeService.findById(employeeId);
-        if (employee != null) {
-            return ResponseEntity.ok(employee);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<APICustomResponse> getById(
+            @PathVariable("id") Long employeeId) {
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        return createResponse(
+                Map.of("employee", employee),
+                "Employee has been fetched successfully",
+                OK);
     }
 
     @PostMapping()
