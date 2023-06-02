@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/employee")
 public class EmployeeController {
     @Autowired
-    EmployeeService employeeService;
+    EmployeeServiceImpl employeeService;
 
     @GetMapping("/getAll")
     public List<Employee> getAll() {
@@ -35,7 +36,7 @@ public class EmployeeController {
     @PostMapping("/activate/{employeeId}")
     public ResponseEntity<String> activateEmployee(@PathVariable Long employeeId) {
         employeeService.activateEmployee(employeeId);
-        String message = "Employee with ID: " + employeeId + " has been reactivated.";
+        String message = "Employee with ID:9 " + employeeId + " has been reactivated.";
         return ResponseEntity.ok(message);
     }
 
