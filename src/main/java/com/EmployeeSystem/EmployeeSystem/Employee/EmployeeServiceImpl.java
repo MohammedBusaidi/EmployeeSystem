@@ -1,6 +1,9 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
 import com.EmployeeSystem.EmployeeSystem.Constants.Constants;
+import com.EmployeeSystem.EmployeeSystem.Exception.EmployeeNotFoundException;
+import com.EmployeeSystem.EmployeeSystem.Exception.ResourceNotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -16,17 +19,19 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findAll();
     }
 
-    public Employee findById(Long employeeId)    {
-        return employeeRepository.findById(employeeId).get();
+    public Employee findEmployeeById(Long employeeId) {
+        return employeeRepository
+                .findById(employeeId)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public Employee createEmployee(Employee employee) {
+    public Long createEmployee(@NotNull Employee employee) {
         LocalDateTime now = LocalDateTime.now();
         employee.setVat(employee.getSalary() * Constants.vat);
         employee.setCreatedDate(now);
         employee.setActive(true);
         employeeRepository.save(employee);
-        return employee;
+        return employee.getEmployeeId();
     }
 
     public Employee updateEmployee(Long employeeId, Employee employee) throws EmployeeNotFoundException {

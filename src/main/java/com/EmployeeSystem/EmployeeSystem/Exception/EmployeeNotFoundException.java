@@ -1,4 +1,4 @@
-package com.EmployeeSystem.EmployeeSystem.Employee;
+package com.EmployeeSystem.EmployeeSystem.Exception;
 
 public class EmployeeNotFoundException extends RuntimeException {
 

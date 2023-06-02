@@ -1,25 +1,28 @@
 package com.EmployeeSystem.EmployeeSystem.Employee;
 
+import com.EmployeeSystem.EmployeeSystem.Exception.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("api/v1/employee")
-public class EmployeeController {
+public class EmployeeController extends GenericController {
     @Autowired
     EmployeeServiceImpl employeeService;
 
-    @GetMapping("/getAll")
+    @GetMapping("")
     public List<Employee> getAll() {
         return employeeService.getAll();
     }
 
-    @GetMapping("/getById/{employeeId}")
-    public ResponseEntity<Employee> getById(@PathVariable("employeeId") Long employeeId) {
+    @GetMapping("{id}")
+    public ResponseEntity<Employee> getById(@PathVariable("id") Long employeeId) {
         Employee employee = employeeService.findById(employeeId);
         if (employee != null) {
             return ResponseEntity.ok(employee);
@@ -28,15 +31,19 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/addEmployee")
-    Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    @PostMapping()
+    public ResponseEntity<APICustomResponse> createEmployee(@RequestBody Employee employee) {
+        Long employeeId = employeeService.createEmployee(employee);
+        return createResponse(
+                Map.of("employee_Id", employeeId),
+                "Employee have been created",
+                CREATED);
     }
 
     @PostMapping("/activate/{employeeId}")
     public ResponseEntity<String> activateEmployee(@PathVariable Long employeeId) {
         employeeService.activateEmployee(employeeId);
-        String message = "Employee with ID:9 " + employeeId + " has been reactivated.";
+        String message = "Employee with ID: " + employeeId + " has been reactivated.";
         return ResponseEntity.ok(message);
     }
 
