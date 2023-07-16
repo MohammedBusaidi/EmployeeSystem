@@ -27,5 +27,5 @@ CREATE TABLE `employees`.`user` (
     `end_of_contract` DATE NOT NULL,
     `salary` FLOAT NOT NULL,
     `vat` FLOAT NOT NULL,
-    PRIMARY KEY (`employeeId `(15))
+    PRIMARY KEY (`employeeId`)
 ) ENGINE = InnoDB;
